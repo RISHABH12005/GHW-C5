@@ -1,6 +1,6 @@
 # Simulate an IoT Sensor Dataset with Tiger Cloud
 
-This repository implements the Global Hack Week challenge to simulate an IoT sensor dataset in Tiger Cloud and run basic time-series queries.
+This repository implements the Global Hack Week challenge to simulate an IoT sensor dataset in Tiger Cloud and run basic time-series queries. SQL setup and analytics scripts are included under `sql/`.
 
 ## What it creates
 - A relational `sensors` table containing sensor type and location metadata.
