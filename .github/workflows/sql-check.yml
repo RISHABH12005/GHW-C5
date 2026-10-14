@@ -1,0 +1,22 @@
+name: Repository checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify challenge files and query examples
+        run: |
+          test -s README.md
+          test -s sql/setup.sql
+          test -s sql/queries.sql
+          grep -q "CREATE TABLE IF NOT EXISTS sensors" sql/setup.sql
+          grep -q "CREATE TABLE IF NOT EXISTS sensor_data" sql/setup.sql
+          grep -q "generate_series" sql/setup.sql
+          grep -q "time_bucket" sql/queries.sql
