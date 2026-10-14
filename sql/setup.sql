@@ -1,5 +1,5 @@
--- Simulated IoT sensor dataset for Tiger Cloud / TimescaleDB.
--- Run in your Tiger Cloud SQL editor. Adds only the challenge's tables and seed rows.
+-- Simulated IoT dataset for Tiger Cloud / TimescaleDB.
+-- Run in your Tiger Cloud service SQL editor.
 CREATE EXTENSION IF NOT EXISTS timescaledb;
 
 CREATE TABLE IF NOT EXISTS sensors (
@@ -19,14 +19,11 @@ CREATE TABLE IF NOT EXISTS sensor_data (
 SELECT create_hypertable('sensor_data', 'time', if_not_exists => TRUE);
 
 INSERT INTO sensors (type, location) VALUES
-    ('a', 'floor'),
-    ('a', 'ceiling'),
-    ('b', 'floor'),
-    ('b', 'ceiling')
+    ('a', 'floor'), ('a', 'ceiling'), ('b', 'floor'), ('b', 'ceiling')
 ON CONFLICT (type, location) DO NOTHING;
 
--- Use distinct five-minute timestamps aligned to a fixed interval, which makes
--- this script safe to rerun without duplicating existing generated readings.
+-- Generate five-minute readings for the prior 24 hours without duplicating
+-- identical sensor/timestamp rows on re-run.
 INSERT INTO sensor_data (time, sensor_id, cpu, temperature)
 SELECT gs.time, s.id, random(), random() * 100
 FROM generate_series(
@@ -37,13 +34,10 @@ FROM generate_series(
 CROSS JOIN sensors AS s
 WHERE NOT EXISTS (
     SELECT 1 FROM sensor_data existing
-    WHERE existing.sensor_id = s.id
-      AND existing.time = gs.time
+    WHERE existing.sensor_id = s.id AND existing.time = gs.time
 );
 
 SELECT id, type, location FROM sensors ORDER BY id;
-
 SELECT COUNT(*) AS total_readings,
-       MIN(time) AS first_reading,
-       MAX(time) AS last_reading
+       MIN(time) AS first_reading, MAX(time) AS last_reading
 FROM sensor_data;
