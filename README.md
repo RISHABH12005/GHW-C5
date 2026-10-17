@@ -1,32 +1,37 @@
-# Simulate an IoT Sensor Dataset with Tiger Cloud
+# IoT Sensor Data Simulator
 
-This repository implements the Global Hack Week challenge to simulate an IoT sensor dataset in Tiger Cloud and run basic time-series queries.
+This project creates a sample dataset from imaginary IoT sensors, like devices that might measure temperature or computer usage. It stores the readings in Tiger Cloud so you can practise exploring data over time.
 
-## What it creates
-- A relational `sensors` table with sensor type and location metadata.
-- A time-series `sensor_data` table with timestamps, sensor IDs, temperature, and CPU measurements.
-- Four sample sensors and five-minute readings over the previous 24 hours.
-- Queries for recent readings, per-sensor averages, and time-bucket summaries.
+Created for the **Global Hack Week Open Source challenge**.
 
-## Run the challenge
-1. Create or select a service in [Tiger Cloud](https://console.cloud.timescale.com/).
+## What does it do?
+
+- Creates four sample sensors and gives each one a type and location.
+- Generates a reading from each sensor every five minutes for the past 24 hours.
+- Includes sample temperature and CPU usage measurements.
+- Provides ready-to-run queries to view recent readings, compare sensors, and summarize changes over time.
+
+The data is generated for practice. It does not come from real physical sensors.
+
+## Try it in Tiger Cloud
+
+1. Open [Tiger Cloud](https://console.cloud.timescale.com/) and create or select a database service.
 2. Open the service's SQL editor.
-3. Run [sql/setup.sql](sql/setup.sql).
-4. Run [sql/queries.sql](sql/queries.sql) and review the results.
-5. Capture a screenshot of your SQL output or share your Tiger Cloud service link. Never share a connection string containing credentials.
+3. Run the setup script: [sql/setup.sql](sql/setup.sql).
+4. Run the example queries: [sql/queries.sql](sql/queries.sql).
+5. Review the results in the SQL editor.
 
-## Dataset details
-The generator creates one reading per sensor every five minutes over the prior 24 hours. CPU values range from 0 to 1 and temperature values from 0 to 100. The setup script avoids duplicate sensors and matching sensor/timestamp rows when rerun.
+The setup script creates the sample sensors and their readings. You can run the queries afterward to see the data in different ways.
 
-The hypertable and `time_bucket` queries require TimescaleDB, which is included in Tiger Cloud.
+## Project files
 
-## Files
-- `sql/setup.sql` — creates the tables, inserts four sensors, generates readings, and verifies row counts.
-- `sql/queries.sql` — inspection and analytics queries.
+- `sql/setup.sql` — creates the sample sensors and generates their readings.
+- `sql/queries.sql` — contains examples for exploring and summarizing the readings.
 
-## References
-- [Official Tiger Data tutorial](https://www.tigerdata.com/docs/learn/tutorials/simulate-iot-sensor-data)
-- [MLH challenge](https://www.mlh.com/events/global-hack-week-open-source-90/challenges/01a11b5c-844d-86ce-9146-6afa2915c842)
+## Learn more
 
-## Security
-Never commit database passwords, API keys, or connection strings to this repository.
+- [Tiger Data tutorial: Simulate IoT sensor data](https://www.tigerdata.com/docs/learn/tutorials/simulate-iot-sensor-data)
+- [Tiger Cloud](https://console.cloud.timescale.com/)
+- [Global Hack Week challenge](https://www.mlh.com/events/global-hack-week-open-source-90/challenges/01a11b5c-844d-86ce-9146-6afa2915c842)
+
+**Note:** You can use this project to learn about sensor data and how it changes over time. Never share database passwords or private connection details.
